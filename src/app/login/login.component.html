@@ -1,0 +1,12 @@
+<div class="flex flex-col space-y-10 justify-center max-w-screen-2xl mx-auto items-center">
+  <div class="bg-white w-96 shadow-xl rounded p-5 text-gray-700">
+    <h1 class="text-2xl uppercase text-center">Jetzt anmelden</h1>
+    <p class="text-sm text-center">Angebote erstellen, einsehen und annehmen.</p>
+
+    <form class="space-y-5 mt-5" (submit)="onSubmit()">
+      <input type="text" class="w-full h-12 border border-gray-800 rounded px-3" placeholder="Email" />
+      <input type="password" class="h-12 w-full flex items-center border border-gray-800 rounded px-3" placeholder="Password" />
+      <a routerLink="/profile" type="submit" class="text-center w-full bg-gray-800 border border-gray-800 rounded text-white py-3 hover:bg-transparent duration-200 hover:text-gray-700 hover:border-gray-800">Login</a>
+    </form>
+  </div>
+</div>
