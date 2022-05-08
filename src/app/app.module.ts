@@ -8,6 +8,12 @@ import { OfferListComponent } from './offer-list/offer-list.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OfferDetailComponent } from './offer-detail/offer-detail.component';
+import {AuthenticationService} from "./shared/authentication.service";
+import {HttpClientModule} from "@angular/common/http";
+import {ReactiveFormsModule} from "@angular/forms";
+import { SubjectComponent } from './subject/subject.component';
+import { SubjectListComponent } from './subject-list/subject-list.component';
+import { SubjectDetailComponent } from './subject-detail/subject-detail.component';
 
 @NgModule({
   declarations: [
@@ -16,12 +22,15 @@ import { OfferDetailComponent } from './offer-detail/offer-detail.component';
     OfferListComponent,
     LoginComponent,
     ProfileComponent,
-    OfferDetailComponent
+    OfferDetailComponent,
+    SubjectComponent,
+    SubjectListComponent,
+    SubjectDetailComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule
+    BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

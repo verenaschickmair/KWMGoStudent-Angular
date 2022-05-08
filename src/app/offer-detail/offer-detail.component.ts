@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-offer-detail',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OfferDetailComponent implements OnInit {
 
-  constructor() { }
+  offer : any;
 
-  ngOnInit(): void {
+  constructor(private location:Location){}
+
+  public ngOnInit(): void {
+    this.offer = this.location.getState();
+    console.log(this.offer)
   }
-
 }

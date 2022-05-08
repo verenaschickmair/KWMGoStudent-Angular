@@ -5,15 +5,19 @@ import {OfferListComponent} from "./offer-list/offer-list.component";
 import {LoginComponent} from "./login/login.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {OfferDetailComponent} from "./offer-detail/offer-detail.component";
+import {SubjectListComponent} from "./subject-list/subject-list.component";
+import {SubjectDetailComponent} from "./subject-detail/subject-detail.component";
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'subjects', component: SubjectListComponent },
   { path: 'offers', component: OfferListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'offer-detail', component: OfferDetailComponent },
+  { path: 'offer-detail/:id', component: OfferDetailComponent },
+  { path: 'subject-detail/:id', component: SubjectDetailComponent },
 ];
 
 @NgModule ({
