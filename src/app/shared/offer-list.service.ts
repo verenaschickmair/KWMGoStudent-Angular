@@ -16,6 +16,10 @@ export class OfferListService {
     return this.http.get<Array<Offer>>(`${this.api}/offers`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  getAllBySubjectId($subjectId : number): Observable<Array<Offer>>{
+    return this.http.get<Array<Offer>>(`${this.api}/subjects/${$subjectId}/offers`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
   getSingle(id: number): Observable<Offer> {
     return this.http.get<Offer>(`${this.api}/offers/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }

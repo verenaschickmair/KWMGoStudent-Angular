@@ -20,12 +20,10 @@
       <div class="px-2">
         <p class="focus:outline-none text-sm leading-5 py-4 text-gray-700 ">{{offer.description}}</p>
         <div class="focus:outline-none flex justify-center">
-          <a routerLink="/offer-detail/{{offer.id}}}" [state]="offer" class="w-full py-4 px-4 text-center leading-3 text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 hover:border-gray-800">Details</a>
+          <a routerLink="{{offer.id}}" class="w-full py-4 px-4 text-center leading-3 text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 hover:border-gray-800">Details</a>
         </div>
       </div>
     </div>
-<!--    <button (click)="renderPagination()" *ngIf="currentPage != totalPages" class="text-center w-96 bg-gray-800 border border-gray-800 rounded text-white py-3 hover:bg-transparent duration-200 hover:text-gray-700 hover:border-gray-800">-->
-<!--      Weitere Angebote laden</button>-->
   </div>
 </div>
 -

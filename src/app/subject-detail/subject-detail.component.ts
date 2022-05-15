@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {Router, ActivatedRoute} from "@angular/router";
+import {SubjectListService} from "../shared/subject-list.service";
+import {Subject} from "../shared/subject";
+import {SubjectFactoryService} from "../shared/subject-factory.service";
+import {OfferListService} from "../shared/offer-list.service";
+import {Offer} from "../shared/offer";
 
 @Component({
   selector: 'app-subject-detail',
@@ -7,9 +13,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubjectDetailComponent implements OnInit {
 
-  constructor() { }
+  subject : Subject = SubjectFactoryService.empty();
+  offers : Offer[] = [];
+
+  constructor(private route : ActivatedRoute, private ss: SubjectListService, private os: OfferListService) { }
 
   ngOnInit(): void {
+    const params = this.route.snapshot.params;
+    this.ss.getSingle(params['id']).subscribe(s => this.subject = s);
+    this.os.getAllBySubjectId(params['id']).subscribe(o => this.offers = o);
   }
 
 }

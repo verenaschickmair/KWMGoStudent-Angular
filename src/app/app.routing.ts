@@ -4,9 +4,9 @@ import {HomeComponent} from "./home/home.component";
 import {OfferListComponent} from "./offer-list/offer-list.component";
 import {LoginComponent} from "./login/login.component";
 import {ProfileComponent} from "./profile/profile.component";
-import {OfferDetailComponent} from "./offer-detail/offer-detail.component";
 import {SubjectListComponent} from "./subject-list/subject-list.component";
 import {SubjectDetailComponent} from "./subject-detail/subject-detail.component";
+import {OfferDetailComponent} from "./offer-detail/offer-detail.component";
 
 
 const routes: Routes = [
@@ -16,8 +16,8 @@ const routes: Routes = [
   { path: 'offers', component: OfferListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'offer-detail/:id', component: OfferDetailComponent },
-  { path: 'subject-detail/:id', component: SubjectDetailComponent },
+  { path: 'subjects/:id', component: SubjectDetailComponent },
+  { path: 'offers/:id', component: OfferDetailComponent },
 ];
 
 @NgModule ({

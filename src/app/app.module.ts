@@ -11,9 +11,10 @@ import { OfferDetailComponent } from './offer-detail/offer-detail.component';
 import {AuthenticationService} from "./shared/authentication.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
-import { SubjectComponent } from './subject/subject.component';
 import { SubjectListComponent } from './subject-list/subject-list.component';
 import { SubjectDetailComponent } from './subject-detail/subject-detail.component';
+import { CommentComponent } from './comment/comment.component';
+import { AppointmentComponent } from './appointment/appointment.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,10 @@ import { SubjectDetailComponent } from './subject-detail/subject-detail.componen
     LoginComponent,
     ProfileComponent,
     OfferDetailComponent,
-    SubjectComponent,
     SubjectListComponent,
-    SubjectDetailComponent
+    SubjectDetailComponent,
+    CommentComponent,
+    AppointmentComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule
