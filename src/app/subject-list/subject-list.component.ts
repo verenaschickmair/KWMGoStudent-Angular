@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SubjectListService} from "../shared/subject-list.service";
 import {Subject} from "../shared/subject";
+import {AuthenticationService} from "../shared/authentication.service";
 
 @Component({
   selector: 'app-subject-list',
@@ -11,11 +12,15 @@ export class SubjectListComponent implements OnInit {
 
   subjects : Subject[] = [];
 
-  constructor(private ss : SubjectListService) { }
+  constructor(private ss : SubjectListService, private as: AuthenticationService) { }
 
   ngOnInit(): void {
     this.ss.getAll().subscribe(res => this.subjects = res);
     console.log(this.subjects);
+  }
+
+  public isLoggedIn(): boolean{
+    return this.as.isLoggedIn();
   }
 
 }

@@ -15,6 +15,7 @@ import { SubjectListComponent } from './subject-list/subject-list.component';
 import { SubjectDetailComponent } from './subject-detail/subject-detail.component';
 import { CommentComponent } from './comment/comment.component';
 import { AppointmentComponent } from './appointment/appointment.component';
+import { OfferFormComponent } from './offer-form/offer-form.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AppointmentComponent } from './appointment/appointment.component';
     SubjectListComponent,
     SubjectDetailComponent,
     CommentComponent,
-    AppointmentComponent
+    AppointmentComponent,
+    OfferFormComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule

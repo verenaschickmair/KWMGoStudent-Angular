@@ -2,11 +2,16 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from "../shared/authentication.service";
 import {Router} from "@angular/router";
 
+interface Response {
+  access_token: string;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
   constructor(private authService : AuthenticationService, private router : Router) { }
@@ -18,15 +23,13 @@ export class LoginComponent implements OnInit {
 
   async login(event : Event){
     event.preventDefault();
-    let credentials = {
-      username: this.username.nativeElement.value,
-      password: this.password.nativeElement.value
-    }
-    console.log(credentials);
-    if (credentials.username && credentials.password) {
-      await this.authService.login(credentials);
-      if(await this.authService.isLoggedIn())
-        await this.router.navigateByUrl("profile");
+    if (this.username.nativeElement.value != "" && this.password.nativeElement.value != "") {
+      console.log(this.username.nativeElement.value, this.password.nativeElement.value)
+      this.authService.login(this.username.nativeElement.value, this.password.nativeElement.value).subscribe((
+        res: any) => {
+        this.authService.setSessionStorage((res as Response).access_token);
+        this.router.navigateByUrl(`profile/${this.authService.getCurrentUserId()}`);
+      });
     }
     else{
       alert("Bitte Benutzername und Passwort eingeben!")

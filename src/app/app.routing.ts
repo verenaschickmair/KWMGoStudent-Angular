@@ -7,6 +7,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {SubjectListComponent} from "./subject-list/subject-list.component";
 import {SubjectDetailComponent} from "./subject-detail/subject-detail.component";
 import {OfferDetailComponent} from "./offer-detail/offer-detail.component";
+import {OfferFormComponent} from "./offer-form/offer-form.component";
 
 
 const routes: Routes = [
@@ -15,9 +16,10 @@ const routes: Routes = [
   { path: 'subjects', component: SubjectListComponent },
   { path: 'offers', component: OfferListComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent },
   { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'offers/:id', component: OfferDetailComponent },
+  { path: 'new-offer', component: OfferFormComponent },
 ];
 
 @NgModule ({

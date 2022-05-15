@@ -5,6 +5,7 @@ import {Subject} from "../shared/subject";
 import {SubjectFactoryService} from "../shared/subject-factory.service";
 import {OfferListService} from "../shared/offer-list.service";
 import {Offer} from "../shared/offer";
+import {AuthenticationService} from "../shared/authentication.service";
 
 @Component({
   selector: 'app-subject-detail',
@@ -16,7 +17,9 @@ export class SubjectDetailComponent implements OnInit {
   subject : Subject = SubjectFactoryService.empty();
   offers : Offer[] = [];
 
-  constructor(private route : ActivatedRoute, private ss: SubjectListService, private os: OfferListService) { }
+  constructor(private route : ActivatedRoute,
+              private ss: SubjectListService,
+              private os: OfferListService) { }
 
   ngOnInit(): void {
     const params = this.route.snapshot.params;
