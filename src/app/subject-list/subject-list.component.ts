@@ -12,7 +12,7 @@ export class SubjectListComponent implements OnInit {
 
   subjects : Subject[] = [];
 
-  constructor(private ss : SubjectListService, private as: AuthenticationService) { }
+  constructor(private ss : SubjectListService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.ss.getAll().subscribe(res => this.subjects = res);
@@ -20,7 +20,6 @@ export class SubjectListComponent implements OnInit {
   }
 
   public isLoggedIn(): boolean{
-    return this.as.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
-
 }

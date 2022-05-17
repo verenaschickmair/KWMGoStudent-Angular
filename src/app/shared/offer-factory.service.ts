@@ -7,7 +7,7 @@ import {Offer} from "./offer";
 export class OfferFactoryService {
 
   static empty() : Offer {
-    return new Offer(0,'','',0, 0);
+    return new Offer(0,'','',0, 0, []);
   }
 
   static fromObject (rawOffer: any) : Offer {
@@ -16,7 +16,8 @@ export class OfferFactoryService {
       rawOffer.isbn,
       rawOffer.title,
       rawOffer.user_id,
-      rawOffer.subject_id
+      rawOffer.subject_id,
+      rawOffer.appointments
     );
   }
 

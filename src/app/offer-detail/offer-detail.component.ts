@@ -10,6 +10,8 @@ import {ActivatedRoute} from "@angular/router";
 import {Appointment} from "../shared/appointment";
 import {AppointmentService} from "../shared/appointment.service";
 import {CommentService} from "../shared/comment.service";
+import {AuthenticationService} from "../shared/authentication.service";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-offer-detail',
@@ -27,11 +29,12 @@ export class OfferDetailComponent implements OnInit {
               private us: UserService,
               private as: AppointmentService,
               private cs: CommentService,
-              private route : ActivatedRoute){}
+              private authService : AuthenticationService,
+              private route : ActivatedRoute,
+              private location : Location){}
 
   public ngOnInit(): void {
     const params = this.route.snapshot.params;
-    console.log(params)
     this.os.getSingle(params['id']).subscribe((o) => {
       this.offer = o
       this.us.getSingle(this.offer.user_id).subscribe(u => this.user = u);
@@ -43,4 +46,17 @@ export class OfferDetailComponent implements OnInit {
   public addComment(): void{
     console.log("commented!")
   }
+
+  public isLoggedIn(): boolean{
+    return this.authService.isLoggedIn();
+  }
+
+  public isCurrentUserOwner(): boolean{
+    return this.authService.getCurrentUserId() === this.offer.user_id;
+  }
+
+  public stepBack(): void{
+    this.location.back();
+  }
+
 }
