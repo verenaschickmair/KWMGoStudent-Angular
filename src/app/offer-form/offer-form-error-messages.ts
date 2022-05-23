@@ -12,5 +12,5 @@ export const OfferFormErrorMessages = [
  new ErrorMessage('description', 'maxlength', 'Die Beschreibung darf höchstens 1000 Zeichen haben'),
  new ErrorMessage('date', 'required', 'Es muss ein Datum angegeben werden'),
  new ErrorMessage('time_from', 'required', 'Es muss eine Startzeit angegeben werden'),
-new ErrorMessage('time_to', 'required', 'Es muss eine Endzeit angegeben werden'),
+  new ErrorMessage('time_to', 'required', 'Es muss eine Endzeit angegeben werden'),
 ];

@@ -3,6 +3,7 @@ import {Offer} from "../shared/offer";
 import {OfferListService} from "../shared/offer-list.service";
 import {AuthenticationService} from "../shared/authentication.service";
 import {AppointmentService} from "../shared/appointment.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-offer-list',
@@ -15,7 +16,8 @@ export class OfferListComponent implements OnInit {
 
   constructor(private os : OfferListService,
               private authService : AuthenticationService,
-              private as : AppointmentService) {
+              private as : AppointmentService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -34,5 +36,12 @@ export class OfferListComponent implements OnInit {
 
   public isLoggedIn() : boolean{
     return this.authService.isLoggedIn();
+  }
+
+  public deleteOffer(offer: Offer){
+    if(confirm("Willst du dieses Angebot wirklich löschen?"))
+      this.os.remove(offer.id).subscribe((del) => {
+        new Notification("Erfolgreich gelöscht");
+      })
   }
 }

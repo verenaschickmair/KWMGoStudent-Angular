@@ -9,13 +9,15 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OfferDetailComponent } from './offer-detail/offer-detail.component';
 import {AuthenticationService} from "./shared/authentication.service";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import { SubjectListComponent } from './subject-list/subject-list.component';
 import { SubjectDetailComponent } from './subject-detail/subject-detail.component';
 import { CommentComponent } from './comment/comment.component';
 import { AppointmentComponent } from './appointment/appointment.component';
 import { OfferFormComponent } from './offer-form/offer-form.component';
+import {TokenInterceptorService} from "./shared/token-interceptor.service";
+import {JwtInterceptorService} from "./shared/jwt-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,11 @@ import { OfferFormComponent } from './offer-form/offer-form.component';
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService,
+    {
+      provide:HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi:true
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

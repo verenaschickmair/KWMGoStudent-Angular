@@ -19,7 +19,9 @@ const routes: Routes = [
   { path: 'profile/:id', component: ProfileComponent },
   { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'offers/:id', component: OfferDetailComponent },
-  { path: 'new-offer', component: OfferFormComponent },
+  { path: 'subjects/:subject_id/new-offer', component: OfferFormComponent },
+  { path: 'subjects/:subject_id/new-offer/:id', component: OfferFormComponent },
+  { path: 'subjects/:subject_id/edit-offer/:id', component: OfferFormComponent },
 ];
 
 @NgModule ({

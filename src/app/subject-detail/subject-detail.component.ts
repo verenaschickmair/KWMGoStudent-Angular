@@ -19,7 +19,8 @@ export class SubjectDetailComponent implements OnInit {
 
   constructor(private route : ActivatedRoute,
               private ss: SubjectListService,
-              private os: OfferListService) { }
+              private os: OfferListService,
+              private authService : AuthenticationService) { }
 
   ngOnInit(): void {
     const params = this.route.snapshot.params;
@@ -28,5 +29,9 @@ export class SubjectDetailComponent implements OnInit {
       console.log(s);
       this.os.getAllBySubjectId(this.subject.id).subscribe(o => {this.offers = o; console.log(o)});
     });
+  }
+
+  isLoggedIn() : boolean{
+    return this.authService.isLoggedIn();
   }
 }

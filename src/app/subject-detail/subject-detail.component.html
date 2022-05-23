@@ -1,5 +1,8 @@
 <div class="max-w-screen-2xl mx-auto">
   <a routerLink=".." class="w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 hover:border-gray-800">Zurück</a>
+  <div class="text-center">
+    <a routerLink="new-offer" *ngIf="isLoggedIn()" type="button" class="mb-12 text-center w-96 bg-gray-800 border border-gray-800 rounded text-white py-3 hover:bg-transparent duration-200 hover:text-gray-700 hover:border-gray-800">Neues Angebot erstellen</a>
+  </div>
   <h2 class="text-center focus:outline-none text-3xl text-center mb-12 font-medium leading-5 text-gray-700">{{subject.name}}</h2>
   <div class="flex justify-center mb-16">
     <div class="pl-3 text-left">

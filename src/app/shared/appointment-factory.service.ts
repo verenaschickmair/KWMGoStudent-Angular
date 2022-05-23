@@ -16,7 +16,8 @@ export class AppointmentFactoryService {
   static fromObject (rawAppointment: any) : Appointment {
     return new Appointment(
       rawAppointment.id,
-      rawAppointment.date,
+      typeof(rawAppointment.date) === 'string' ?
+        new Date(rawAppointment.date) : rawAppointment.date,
       rawAppointment.time_from,
       rawAppointment.time_to,
       rawAppointment.offer_id,

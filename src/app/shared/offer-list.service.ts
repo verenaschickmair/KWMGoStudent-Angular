@@ -16,8 +16,12 @@ export class OfferListService {
     return this.http.get<Array<Offer>>(`${this.api}/offers`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
-  getAllBySubjectId($subjectId : number): Observable<Array<Offer>>{
-    return this.http.get<Array<Offer>>(`${this.api}/subjects/${$subjectId}/offers`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  getAllBySubjectId(subjectId : number): Observable<Array<Offer>>{
+    return this.http.get<Array<Offer>>(`${this.api}/subjects/${subjectId}/offers`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  getAllByUserId(userId : number): Observable<Array<Offer>>{
+    return this.http.get<Array<Offer>>(`${this.api}/profile/${userId}/comments`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   getSingle(id: number): Observable<Offer> {
@@ -26,10 +30,6 @@ export class OfferListService {
 
   remove(id: number): Observable<any> {
     return this.http.delete(`${this.api}/offers/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-
-  getAllSearch(searchTerm:string) : Observable<Array<Offer>> {
-    return this.http.get<Offer>(`${this.api}/offers/search/${searchTerm}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   update(offer: Offer) : Observable<any> {

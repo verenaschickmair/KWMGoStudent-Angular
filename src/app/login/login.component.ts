@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async login(event : Event){
+  login(event : Event){
     event.preventDefault();
     if (this.username.nativeElement.value != "" && this.password.nativeElement.value != "") {
       console.log(this.username.nativeElement.value, this.password.nativeElement.value)

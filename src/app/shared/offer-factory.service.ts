@@ -13,8 +13,8 @@ export class OfferFactoryService {
   static fromObject (rawOffer: any) : Offer {
     return new Offer(
       rawOffer.id,
-      rawOffer.isbn,
-      rawOffer.title,
+      rawOffer.name,
+      rawOffer.description,
       rawOffer.user_id,
       rawOffer.subject_id,
       rawOffer.appointments
