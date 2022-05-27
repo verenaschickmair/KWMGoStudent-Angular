@@ -24,10 +24,12 @@ import {Component, OnInit} from "@angular/core";
 export class OfferDetailComponent implements OnInit {
 
   offer : Offer = OfferFactoryService.empty();
+  owner: User = UserFactoryService.empty();
   user: User = UserFactoryService.empty();
   appointments: Appointment[] = [];
   comments?: Comment[] = [];
   commentForm : FormGroup;
+  finished = false;
   errors: {  [key: string]: string } = {};
 
 
@@ -47,8 +49,12 @@ export class OfferDetailComponent implements OnInit {
     const params = this.route.snapshot.params;
     this.os.getSingle(params['id']).subscribe((o) => {
       this.offer = o;
-      this.us.getSingle(this.offer.user_id).subscribe(u => this.user = u);
-      this.renderComments();
+      this.us.getSingle(this.offer.user_id).subscribe(owner => {
+        this.owner = owner;
+        this.hideBookedAppointments();
+        this.renderComments();
+        this.checkLoggedInUser();
+      });
     });
     this.commentForm = this.fb.group({
       id: new FormControl(0),
@@ -58,6 +64,22 @@ export class OfferDetailComponent implements OnInit {
     this.commentForm.statusChanges.subscribe(() =>
       this.updateErrorMessages()
     )
+  }
+
+  checkLoggedInUser() : void{
+    if(this.isLoggedIn())
+      this.us.getSingle(this.authService.getCurrentUserId()).subscribe(user => {
+        this.user = user;
+        this.finished = true;
+      });
+  }
+
+  hideBookedAppointments() : void{
+    for(const app of this.offer.appointments){
+      if(!app.user_id){
+        this.appointments.push(app);
+      }
+    }
   }
 
   renderComments(){
@@ -83,6 +105,13 @@ export class OfferDetailComponent implements OnInit {
     }
   }
 
+  public bookAppointment(appointment : Appointment): void{
+    appointment.user_id = this.authService.getCurrentUserId();
+    this.as.book(appointment).subscribe((as) => {
+      new Notification("Termin erolgreich gebucht!");
+    })
+  }
+
   public addComment(): void{
     this.updateErrorMessages();
     const comment: Comment = CommentFactoryService.fromObject(this.commentForm.value);
@@ -100,7 +129,11 @@ export class OfferDetailComponent implements OnInit {
   }
 
   public isCurrentUserOwner(): boolean{
-    return this.authService.getCurrentUserId() === this.user.id;
+    return this.authService.getCurrentUserId() === this.owner.id;
+  }
+
+  public isCurrentUserSearcher() : boolean{
+    return this.user.status === 0;
   }
 
   public deleteOffer(offer: Offer){

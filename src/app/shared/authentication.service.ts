@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 
-
 interface Token {
   exp: number;
   user: {
@@ -24,28 +23,6 @@ export class AuthenticationService {
         username: username,
         password: password
       });
-
-    // fetch(this.api + "/login", {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(credentials)
-    // }).then(function (response) {
-    //   if (response.status != 200) {
-    //     alert("Fehlgeschlagen! " + response.status);
-    //     console.log("Fehlgeschlagen")
-    //     console.log(response);
-    //     return false;
-    //   }
-    //   return response; // im response ist token drinnen
-    // }).then(response => {
-    //   if (response != false) response.json().then(response => {
-    //     console.log(response.token);
-    //     this.setSessionStorage(response.token)
-    //     this.router.navigateByUrl("profile")
-    //   })
-    // });
   }
 
   public getCurrentUserId() {
@@ -85,10 +62,6 @@ export class AuthenticationService {
     } else {
       return false;
     }
-  }
-
-  public isLoggedOut() {
-    return !this.isLoggedIn();
   }
 
 }

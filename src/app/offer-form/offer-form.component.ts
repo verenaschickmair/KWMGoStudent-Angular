@@ -23,8 +23,7 @@ export class OfferFormComponent implements OnInit {
               private location: Location,
               private fb: FormBuilder,
               private os: OfferListService,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private route: ActivatedRoute) {
     this.offerForm = this.fb.group({});
     this.appointments = this.fb.array([]);
   }
@@ -77,7 +76,6 @@ export class OfferFormComponent implements OnInit {
     if (this.offer.appointments && this.offer.appointments.length) {
       this.appointments = new FormArray([]);
       for (let appointment of this.offer.appointments) {
-        console.log(appointment)
         let fg = new FormGroup({
           'id': new FormControl(appointment.id),
           'date': new FormControl(appointment.date, [Validators.required]),
