@@ -14,10 +14,11 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { SubjectListComponent } from './subject-list/subject-list.component';
 import { SubjectDetailComponent } from './subject-detail/subject-detail.component';
 import { CommentComponent } from './comment/comment.component';
-import { AppointmentComponent } from './appointment/appointment.component';
 import { OfferFormComponent } from './offer-form/offer-form.component';
 import {TokenInterceptorService} from "./shared/token-interceptor.service";
 import {JwtInterceptorService} from "./shared/jwt-interceptor.service";
+import { OfferListItemComponent } from './offer-list-item/offer-list-item.component';
+import { BookingsTableComponent } from './bookings-table/bookings-table.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,9 @@ import {JwtInterceptorService} from "./shared/jwt-interceptor.service";
     SubjectListComponent,
     SubjectDetailComponent,
     CommentComponent,
-    AppointmentComponent,
-    OfferFormComponent
+    OfferFormComponent,
+    OfferListItemComponent,
+    BookingsTableComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule

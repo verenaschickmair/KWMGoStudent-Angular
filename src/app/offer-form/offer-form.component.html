@@ -2,8 +2,8 @@
   <div>
     <div>
       <div>
-        <h2 *ngIf="!offer" class="text-2xl text-center">Neues Angebot erstellen</h2>
-        <h2 *ngIf="offer" class="text-2xl text-center">Angebot bearbeiten</h2>
+        <h2 *ngIf="!isUpdatingOffer" class="text-2xl text-center">Neues Angebot erstellen</h2>
+        <h2 *ngIf="isUpdatingOffer" class="text-2xl text-center">Angebot bearbeiten</h2>
         <form [formGroup]="offerForm" (submit)="submitForm()">
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <div class="px-4 col-span-6 py-5 bg-white space-y-6 sm:p-6">
@@ -12,37 +12,43 @@
               <div>
                 <label for="company-website" class="block text-sm font-medium text-gray-700"> Titel </label>
                 <div class="mt-1 flex rounded-md shadow-sm">
-                  <input type="text" formControlName="name" name="company-website" id="company-website" class="p-2 border border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full">
-                  <div *ngIf="errors['name']" class="text-red-500"> {{ errors['name'] }}</div>
+                  <input type="text" formControlName="name" name="company-website" id="company-website" class="p-2 border border-gray-300 rounded  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm flex-1 block w-full">
+                  <div *ngIf="errors['name']" class="text-red-500 text-sm"> {{ errors['name'] }}</div>
                 </div>
               </div>
 
               <div>
                 <label for="about" class="block text-sm font-medium text-gray-700">Beschreibung</label>
                 <div class="mt-1">
-                  <textarea id="about" formControlName="description" name="about" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded"></textarea>
-                  <div *ngIf="errors['description']" class="text-red-500"> {{ errors['description'] }}</div>
+                  <textarea id="about" formControlName="description" name="about" rows="3" class="p-2 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded"></textarea>
+                  <div *ngIf="errors['description']" class="text-red-500 text-sm"> {{ errors['description'] }}</div>
                 </div>
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label for="subject_id" class="block text-sm font-medium text-gray-700">Fach</label>
+                <select id="subject_id" (change)="onChange($event)" formControlName="subject_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option *ngFor="let subject of subjects" id="{{subject.id}}" [selected]="offer.subject_id === subject.id">{{subject.name}}</option>
+                </select>
+                <div *ngIf="errors['subject_id']" class="text-red-500 text-sm text-sm"> {{ errors['subject_id'] }}</div>
               </div>
 
               <fieldset>
                 <div formArrayName="appointments">
                   <div *ngFor="let control of appointments.controls; let i = index; let l = last" formGroupName="{{i}}" class="flex items-center">
                     <input type="hidden" formControlName="id">
-                    <span>{{l}}</span>
-                    <span>{{i}}</span>
 
-                    <label for="date">Datum: </label>
+                    <label class="mr-2" for="date">Datum: </label>
                     <input type="date" id="date" formControlName="date" class="mr-2 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <div *ngIf="errors['date']" class="text-red-500"> {{ errors['date'] }}</div>
+                    <div *ngIf="errors['date']" class="text-red-500 text-sm"> {{ errors['date'] }}</div>
 
-                    <label for="time_from">Ab: </label>
+                    <label class="mr-2" for="time_from">Ab: </label>
                     <input type="time" id="time_from" formControlName="time_from" class="mr-2 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <div *ngIf="errors['time_from']" class="text-red-500"> {{ errors['time_from'] }}</div>
+                    <div *ngIf="errors['time_from']" class="text-red-500 text-sm"> {{ errors['time_from'] }}</div>
 
-                    <label for="time_to">Bis: </label>
+                    <label class="mr-2" for="time_to">Bis: </label>
                     <input type="time" id="time_to" formControlName="time_to" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <div *ngIf="errors['time_to']" class="text-red-500"> {{ errors['time_to'] }}</div>
+                    <div *ngIf="errors['time_to']" class="text-red-500 text-sm"> {{ errors['time_to'] }}</div>
 
                     <div *ngIf="l">
                       <button (click)="addAppointmentControl()" class="px-2 bg-gray-800 text-white duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 border hover:border-gray-800 ml-2 rounded text-lg" type="button">+</button>
@@ -52,8 +58,8 @@
               </fieldset>
 
               <div class="px-4 py-3 text-center sm:px-6">
-                <a (click)="stepBack()" class="w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 hover:border-gray-800 cursor-pointer">Zurück</a>
-                <button type="submit" [disabled]="offerForm.invalid" class="disabled:opacity-50 w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white cursor-pointer hover:text-gray-700 hover:border-gray-800">Speichern</button>
+                <a (click)="stepBack()" class="inline-block w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 hover:border-gray-800 cursor-pointer">Zurück</a>
+                <button type="submit" [disabled]="offerForm.invalid && !isUpdatingOffer" class="disabled:opacity-50 w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white cursor-pointer hover:text-gray-700 hover:border-gray-800">Speichern</button>
               </div>
             </div>
           </div>

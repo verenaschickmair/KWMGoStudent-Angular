@@ -40,8 +40,8 @@ export class UserService {
     return this.http.get<Boolean>(`${this.api}/user/checkid/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
-  public getUserStatus(user: User) : boolean {
-    return user.status === 0;
+  isCurrentUserTeacher(user: User) : boolean{
+    return user.status === 1;
   }
 
   private errorHandler(error: Error | any): Observable<any> {

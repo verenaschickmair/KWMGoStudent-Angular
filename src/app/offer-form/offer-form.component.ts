@@ -1,14 +1,15 @@
-import {Component, NgIterable, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from "../shared/authentication.service";
 import {Location} from '@angular/common';
-import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 import {OfferListService} from "../shared/offer-list.service";
 import {OfferFactoryService} from "../shared/offer-factory.service";
-import {AppointmentFactoryService} from "../shared/appointment-factory.service";
-import { AppointmentService } from '../shared/appointment.service';
 import { OfferFormErrorMessages } from './offer-form-error-messages';
 import {Offer} from "../shared/offer";
+import {SubjectListService} from "../shared/subject-list.service";
+import {Subject} from "../shared/subject";
+import {OfferValidators} from "../shared/offer-validators";
 
 
 @Component({
@@ -18,11 +19,11 @@ import {Offer} from "../shared/offer";
 })
 export class OfferFormComponent implements OnInit {
 
-  // @ts-ignore
   constructor(private authService : AuthenticationService,
               private location: Location,
               private fb: FormBuilder,
               private os: OfferListService,
+              private ss: SubjectListService,
               private route: ActivatedRoute) {
     this.offerForm = this.fb.group({});
     this.appointments = this.fb.array([]);
@@ -34,23 +35,29 @@ export class OfferFormComponent implements OnInit {
   errors: {  [key: string]: string } = {};
   isUpdatingOffer = false;
   loaded = false;
+  subjects? : Subject[];
+  selectedSubject? : number;
 
   ngOnInit(): void {
     const id = this.route.snapshot.params["id"];
+    this.ss.getAll().subscribe((subjects) => {
+      this.subjects = subjects;
+      this.selectedSubject = subjects[0].id;
+    })
 
     //UPDATE OFFER
     if (id) {
       this.isUpdatingOffer = true;
       this.os.getSingle(id).subscribe(offer => {
         this.offer = offer;
-        this.loaded = true;
         this.initOffer();
+        this.loaded = true;
       });
     }
     //NEW OFFER
     else{
-      this.loaded =  true;
       this.initOffer();
+      this.loaded = true;
     }
   }
 
@@ -63,6 +70,7 @@ export class OfferFormComponent implements OnInit {
       id: this.offer.id,
       name: [this.offer.name, [Validators.required, Validators.minLength(3)]],
       description: [this.offer.description, [Validators.minLength(10), Validators.maxLength(1000)]],
+      subject_id: this.selectedSubject,
       appointments: this.appointments
     });
 
@@ -76,11 +84,11 @@ export class OfferFormComponent implements OnInit {
     if (this.offer.appointments && this.offer.appointments.length) {
       this.appointments = new FormArray([]);
       for (let appointment of this.offer.appointments) {
-        let fg = new FormGroup({
-          'id': new FormControl(appointment.id),
-          'date': new FormControl(appointment.date, [Validators.required]),
-          'time_from': new FormControl(appointment.time_from, [Validators.required]),
-          'time_to': new FormControl(appointment.time_to, [Validators.required])
+        let fg = this.fb.group({
+          'id': [appointment.id],
+          'date': [appointment.date, [Validators.required, OfferValidators.dateMinimum(new Date())]],
+          'time_from': [appointment.time_from, [Validators.required]],
+          'time_to': [appointment.time_to, [Validators.required]]
         });
         this.appointments.push(fg);
       }
@@ -95,7 +103,7 @@ export class OfferFormComponent implements OnInit {
     this.appointments.push(this.fb.group(
       {
         'id': new FormControl(0),
-        'date': new FormControl(["", Validators.required]),
+        'date': new FormControl(["", Validators.required, OfferValidators.dateMinimum(new Date())]),
         'time_from': new FormControl(["", Validators.required]),
         'time_to': new FormControl("", Validators.required)
       }
@@ -119,8 +127,15 @@ export class OfferFormComponent implements OnInit {
     }
   }
 
+  onChange(select: any): void {
+    let s = select.target;
+    this.selectedSubject = s[s.selectedIndex].id;
+  }
+
   submitForm() {
     const offer: Offer = OfferFactoryService.fromObject(this.offerForm.value);
+    console.log(this.offerForm.value);
+    console.log(offer);
 
     if (this.isUpdatingOffer) {
       this.os.update(offer).subscribe(res => {
@@ -129,7 +144,7 @@ export class OfferFormComponent implements OnInit {
       });
     } else {
       offer.user_id = this.authService.getCurrentUserId();
-      offer.subject_id = parseInt(this.route.snapshot.params["subject_id"]);
+      offer.subject_id = this.selectedSubject!;
 
       this.os.create(offer).subscribe(res => {
         this.offer = OfferFactoryService.empty();

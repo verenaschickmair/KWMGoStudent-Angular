@@ -40,12 +40,24 @@ export class OfferDetailComponent implements OnInit {
               private authService : AuthenticationService,
               private route : ActivatedRoute,
               private location : Location,
-              private fb : FormBuilder,
-              private router : Router){
+              private fb : FormBuilder,){
     this.commentForm = this.fb.group({});
   }
 
   public ngOnInit(): void {
+    this.loadData()
+
+    this.commentForm = this.fb.group({
+      id: new FormControl(0),
+      description: new FormControl("", [Validators.required, Validators.minLength(10)])
+    });
+    //CHECKING FOR ERRORS
+    this.commentForm.statusChanges.subscribe(() =>
+      this.updateErrorMessages()
+    )
+  }
+
+  loadData(){
     const params = this.route.snapshot.params;
     this.os.getSingle(params['id']).subscribe((o) => {
       this.offer = o;
@@ -56,25 +68,20 @@ export class OfferDetailComponent implements OnInit {
         this.checkLoggedInUser();
       });
     });
-    this.commentForm = this.fb.group({
-      id: new FormControl(0),
-      description: new FormControl("", Validators.required)
-    });
-    //CHECKING FOR ERRORS
-    this.commentForm.statusChanges.subscribe(() =>
-      this.updateErrorMessages()
-    )
   }
 
   checkLoggedInUser() : void{
-    if(this.isLoggedIn())
+    if(this.isLoggedIn()) {
       this.us.getSingle(this.authService.getCurrentUserId()).subscribe(user => {
         this.user = user;
         this.finished = true;
       });
+    }
+    this.finished = true;
   }
 
   hideBookedAppointments() : void{
+    this.appointments = [];
     for(const app of this.offer.appointments){
       if(!app.user_id){
         this.appointments.push(app);
@@ -106,9 +113,19 @@ export class OfferDetailComponent implements OnInit {
   }
 
   public bookAppointment(appointment : Appointment): void{
-    appointment.user_id = this.authService.getCurrentUserId();
-    this.as.book(appointment).subscribe((as) => {
-      new Notification("Termin erolgreich gebucht!");
+    if(confirm('Termin verbindlich buchen?')) {
+      appointment.user_id = this.authService.getCurrentUserId();
+      this.as.book(appointment).subscribe((as) => {
+        new Notification("Termin erolgreich gebucht!");
+        this.loadData();
+      });
+    }
+  }
+
+  public deleteAppointment(appointment : Appointment) : void{
+    this.as.remove(appointment).subscribe((as) => {
+      new Notification("Termin erolgreich gelöscht!");
+      this.loadData();
     })
   }
 

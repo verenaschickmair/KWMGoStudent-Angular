@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   login(event : Event){
     event.preventDefault();
     if (this.username.nativeElement.value != "" && this.password.nativeElement.value != "") {
-      console.log(this.username.nativeElement.value, this.password.nativeElement.value)
       this.authService.login(this.username.nativeElement.value, this.password.nativeElement.value).subscribe((
         res: any) => {
         this.authService.setSessionStorage((res as Response).access_token);

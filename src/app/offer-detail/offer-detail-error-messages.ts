@@ -6,6 +6,6 @@ export class ErrorMessage {
   ) { }
 }
 export const CommentFormErrorMessages = [
-  new ErrorMessage('description', 'required', 'Bitte ein Kommentar verfassen!'),
+  new ErrorMessage('description', 'required', 'Zum Absenden eines Kommentars bitte einen Text eingeben.'),
   new ErrorMessage('description', 'minlength', 'Die Beschreibung muss mindestens 10 Zeichen enthalten'),
 ];

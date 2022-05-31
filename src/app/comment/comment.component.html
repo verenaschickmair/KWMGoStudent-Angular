@@ -1,4 +1,4 @@
-<div class=" flex ml-3 relative">
+<div class="flex ml-3 relative">
   <div class="flex items-start absolute top-0 right-0" *ngIf="isCurrentUserOwner()">
     <button (click)="deleteComment()">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -7,13 +7,15 @@
     </button>
   </div>
 
-    <div class="mr-3">
-      <img src="http://picsum.photos/50" alt="" class="rounded-full">
-    </div>
-    <div class="pl-2 pr-12">
-      <h1 class="font-semibold">{{user?.firstname}} {{user?.lastname}}</h1>
-    </div>
-    <div class="w-96">
-      <p class="break-words">{{comment.description}}</p>
-    </div>
+  <div class="mr-3 flex-shrink-0">
+    <img src="http://picsum.photos/50" alt="" class="rounded-full">
+  </div>
+  <div class="pl-2 mr-12 w-16 xl:w-40 flex-shrink-0">
+    <p class="font-semibold">{{user?.firstname}} {{user?.lastname}}</p>
+  </div>
+  <div class="w-content">
+    <p class="break-all text-sm">{{comment.description}}</p>
+  </div>
 </div>
+
+

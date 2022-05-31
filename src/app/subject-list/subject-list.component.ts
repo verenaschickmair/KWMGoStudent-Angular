@@ -16,7 +16,6 @@ export class SubjectListComponent implements OnInit {
 
   ngOnInit(): void {
     this.ss.getAll().subscribe(res => this.subjects = res);
-    console.log(this.subjects);
   }
 
   public isLoggedIn(): boolean{

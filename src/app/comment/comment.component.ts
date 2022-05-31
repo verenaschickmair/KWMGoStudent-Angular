@@ -23,7 +23,8 @@ export class CommentComponent implements OnInit {
               private router : Router) { }
 
   ngOnInit(): void {
-    this.us.getSingle(this.comment.user_id).subscribe((u) => this.user = u);
+    this.us.getSingle(this.comment.user_id).subscribe(
+      (user) => this.user = user);
   }
 
   isCurrentUserOwner() : boolean{

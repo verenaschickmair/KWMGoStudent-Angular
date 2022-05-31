@@ -8,7 +8,7 @@ import {SubjectListComponent} from "./subject-list/subject-list.component";
 import {SubjectDetailComponent} from "./subject-detail/subject-detail.component";
 import {OfferDetailComponent} from "./offer-detail/offer-detail.component";
 import {OfferFormComponent} from "./offer-form/offer-form.component";
-
+import {CanNavigateToAdminGuard} from "./can-navigate-to-admin.guard";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,18 +16,17 @@ const routes: Routes = [
   { path: 'subjects', component: SubjectListComponent },
   { path: 'offers', component: OfferListComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent, canActivate:[CanNavigateToAdminGuard] },
   { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'offers/:id', component: OfferDetailComponent },
-  { path: 'subjects/:subject_id/new-offer', component: OfferFormComponent },
-  { path: 'subjects/:subject_id/new-offer/:id', component: OfferFormComponent },
-  { path: 'subjects/:subject_id/edit-offer/:id', component: OfferFormComponent },
+  { path: 'new-offer', component: OfferFormComponent, canActivate:[CanNavigateToAdminGuard] },
+  { path: 'edit-offer/:id', component: OfferFormComponent, canActivate:[CanNavigateToAdminGuard] },
 ];
 
 @NgModule ({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [CanNavigateToAdminGuard]
 
 })
 

@@ -53,11 +53,11 @@ export class AuthenticationService {
       const decodedToken = jwt_decode(token) as Token;
       let expirationDate: Date = new Date(0);
       expirationDate.setUTCSeconds(decodedToken.exp);
-      if (expirationDate < new Date()) {
-        console.log("token expired");
-        sessionStorage.removeItem("token");
-        return false;
-      }
+      // if (expirationDate < new Date()) {
+      //   console.log("token expired");
+      //   sessionStorage.removeItem("token");
+      //   return false;
+      // }
       return true;
     } else {
       return false;

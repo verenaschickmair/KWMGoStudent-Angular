@@ -4,6 +4,9 @@ import {OfferListService} from "../shared/offer-list.service";
 import {AuthenticationService} from "../shared/authentication.service";
 import {AppointmentService} from "../shared/appointment.service";
 import {Router} from "@angular/router";
+import {Subject} from "../shared/subject";
+import {User} from "../shared/user";
+import {UserService} from "../shared/user.service";
 
 @Component({
   selector: 'app-offer-list',
@@ -12,36 +15,60 @@ import {Router} from "@angular/router";
 })
 export class OfferListComponent implements OnInit {
 
-  @Input() offers! : Offer[];
+  @Input() subject? : Subject;
+  @Input() user? : User;
+  loopOffers? : Offer[];
+  loginUser? : User;
 
   constructor(private os : OfferListService,
               private authService : AuthenticationService,
               private as : AppointmentService,
-              private router: Router) {
+              private router: Router,
+              private us: UserService) {
   }
 
   ngOnInit(): void {
+    if(this.isLoggedIn())
+      this.us.getSingle(this.authService.getCurrentUserId()).subscribe((loginUser) => {
+        this.loginUser = loginUser;
+        this.loadOffers();
+    });
+    this.loadOffers();
   }
 
-
-  public isCurrentUserOwner(id : number): boolean{
-    return this.authService.getCurrentUserId() === id;
+  isCurrentUserTeacher() : boolean{
+    if(this.loginUser)
+      return this.us.isCurrentUserTeacher(this.loginUser);
+    return false;
   }
 
-  // public getAppointments(id: number) : void{
-  //   this.as.getAllByOfferId(id).subscribe((a) => {
-  //     this.appointments = a
-  // });
-  // }
+  loadOffers(){
+    if(this.subject){
+      this.os.getAllBySubjectId(this.subject.id).subscribe((offers) => {
+        this.loopOffers = offers;
+        console.log("subject: " + offers);
+      });
+    }
+    else if(this.user) {
+      this.os.getAllByUserId(this.user.id).subscribe((offers) => {
+        this.loopOffers = offers;
+        console.log("user: " + offers);
+      });
+    }
+    else{
+      this.os.getAll().subscribe((offers) => {
+        this.loopOffers = offers;
+        console.log("all: " + offers);
+      });
+    }
+  }
 
-  public isLoggedIn() : boolean{
+  navigate(){
+    this.router.navigateByUrl("new-offer");
+  }
+
+  isLoggedIn() : boolean{
     return this.authService.isLoggedIn();
   }
 
-  public deleteOffer(offer: Offer){
-    if(confirm("Willst du dieses Angebot wirklich löschen?"))
-      this.os.remove(offer.id).subscribe((del) => {
-        new Notification("Erfolgreich gelöscht");
-      })
-  }
 }

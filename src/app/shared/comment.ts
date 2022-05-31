@@ -4,5 +4,6 @@ export class Comment {
     public description: string,
     public offer_id: number,
     public user_id: number,
+    public offer_name? : string
   ) { }
 }
