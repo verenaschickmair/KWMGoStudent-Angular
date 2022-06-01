@@ -17,7 +17,7 @@ export class OfferListComponent implements OnInit {
 
   @Input() subject? : Subject;
   @Input() user? : User;
-  loopOffers? : Offer[];
+  loopOffers : Offer[] = [];
   loginUser? : User;
 
   constructor(private os : OfferListService,
@@ -33,7 +33,7 @@ export class OfferListComponent implements OnInit {
         this.loginUser = loginUser;
         this.loadOffers();
     });
-    this.loadOffers();
+    else this.loadOffers();
   }
 
   isCurrentUserTeacher() : boolean{
@@ -45,17 +45,17 @@ export class OfferListComponent implements OnInit {
   loadOffers(){
     if(this.subject){
       this.os.getAllBySubjectId(this.subject.id).subscribe((offers) => {
-        this.loopOffers = offers;
+        this.loopOffers = offers.reverse();
       });
     }
     else if(this.user) {
       this.os.getAllByUserId(this.user.id).subscribe((offers) => {
-        this.loopOffers = offers;
+        this.loopOffers = offers.reverse();
       });
     }
     else{
       this.os.getAll().subscribe((offers) => {
-        this.loopOffers = offers;
+        this.loopOffers = offers.reverse();
       });
     }
   }

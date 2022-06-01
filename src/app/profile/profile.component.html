@@ -53,7 +53,7 @@
       <h2 class="text-2xl text-center mb-6">Kommentare für dich</h2>
       <div class="items-center justify-center" *ngFor="let comment of comments">
         <h2 class="text-lg">{{comment.offer_name}}:</h2>
-        <div class="flex-grow bg-white p-4 my-2 rounded break-words shadow-lg cursor-pointer" (click)="navigate(comment.offer_id)">
+        <div class="flex-grow mb-6 bg-white p-4 my-2 rounded break-words shadow-lg cursor-pointer" (click)="navigate(comment.offer_id)">
           <app-comment [comment]="comment" (deleteEvent)="getComments()"></app-comment>
         </div>
       </div>
@@ -122,7 +122,7 @@
                 <span *ngIf="!isFutureAppointment(booking.date)">Abgeschlossen</span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500">
-                <button class="px-4 py-1 text-sm text-white bg-red-800 rounded" *ngIf="isFutureAppointment(booking.date)" (click)="cancelAppointment(booking)">Stornieren</button>
+                <button class="px-4 py-1 text-sm text-white bg-red-800 rounded" *ngIf="isFutureAppointment(booking.date)" (click)="cancelAppointment(booking)">Absagen</button>
               </td>
             </tr>
             </tbody>
@@ -185,7 +185,7 @@
                 <span *ngIf="!isFutureAppointment(booking.date)">Abgeschlossen</span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500">
-                <button class="px-4 py-1 text-sm text-white bg-red-800 rounded" *ngIf="isFutureAppointment(booking.date)" (click)="cancelAppointment(booking)">Stornieren</button>
+                <button class="px-4 py-1 text-sm text-white bg-red-800 rounded" *ngIf="isFutureAppointment(booking.date)" (click)="cancelAppointment(booking)">Absagen</button>
               </td>
             </tr>
             </tbody>
@@ -194,7 +194,7 @@
       </div>
     </div>
   </div>
-  <div class="bg-white px-3 rounded-sm mt-12" *ngIf="isCurrentUserTeacher(user) && offers && offers.length">
+  <div class="bg-white px-3 rounded-sm" *ngIf="isCurrentUserTeacher(user) && offers && offers.length">
     <h2 class="text-2xl text-center mb-6">Deine Angebote</h2>
       <app-offer-list [user]="user"></app-offer-list>
   </div>

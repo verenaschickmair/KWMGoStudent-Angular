@@ -9,6 +9,8 @@ export class Offer {
     public user_id: number,
     public subject_id: number,
     public appointments: Appointment[],
-    public comments?: Comment[]
+    public comments?: Comment[],
+    public created_at?: Date,
+    public updated_at?: Date,
   ) { }
 }

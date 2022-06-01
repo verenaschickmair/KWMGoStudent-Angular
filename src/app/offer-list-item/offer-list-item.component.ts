@@ -19,15 +19,16 @@ export class OfferListItemComponent implements OnInit {
   @Input() offer! : Offer;
   @Input() subject? : Subject;
   @Output() deleteEvent = new EventEmitter();
+  date? : string;
   owner : User = UserFactoryService.empty();
 
   constructor(private authService : AuthenticationService,
               private os : OfferListService,
-              private router : Router,
-              private us : UserService,
-              private ss: SubjectListService) { }
+              private router : Router) { }
 
   ngOnInit(): void {
+    if(this.offer.created_at)
+    this.date = new Date(this.offer.created_at).toLocaleDateString("de-DE");
   }
 
   public isCurrentUserOwner(id : number): boolean{

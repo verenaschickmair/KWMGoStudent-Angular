@@ -2,6 +2,7 @@
   <div class="flex items-start justify-between w-full text-gray-700">
     <div class="pl-3 w-full">
       <p class="focus:outline-none text-lg font-medium leading-5 text-gray-700">{{offer.name}}</p>
+      <p class="focus:outline-none text-sm pt-2 text-gray-500">erstellt am {{date}}</p>
     </div>
     <div *ngIf="isCurrentUserOwner(offer.user_id)" class="inline-block flex ml-2">
       <button (click)="navigate(offer.id, 'edit')">

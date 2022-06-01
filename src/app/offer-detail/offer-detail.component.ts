@@ -30,6 +30,7 @@ export class OfferDetailComponent implements OnInit {
   comments?: Comment[] = [];
   commentForm : FormGroup;
   finished = false;
+  date? : string;
   errors: {  [key: string]: string } = {};
 
 
@@ -40,7 +41,8 @@ export class OfferDetailComponent implements OnInit {
               private authService : AuthenticationService,
               private route : ActivatedRoute,
               private location : Location,
-              private fb : FormBuilder,){
+              private fb : FormBuilder,
+              private router : Router){
     this.commentForm = this.fb.group({});
   }
 
@@ -61,6 +63,8 @@ export class OfferDetailComponent implements OnInit {
     const params = this.route.snapshot.params;
     this.os.getSingle(params['id']).subscribe((o) => {
       this.offer = o;
+      if(this.offer.created_at)
+        this.date = new Date(this.offer.created_at).toLocaleDateString("de-DE");
       this.us.getSingle(this.offer.user_id).subscribe(owner => {
         this.owner = owner;
         this.hideBookedOrPastAppointments();
@@ -93,6 +97,10 @@ export class OfferDetailComponent implements OnInit {
     this.cs.getAllByOfferId(this.offer.id).subscribe(c => {
       this.comments = c;
     })
+  }
+
+  navigate(){
+    this.router.navigateByUrl("edit-offer/" + this.offer.id)
   }
 
   updateErrorMessages() {

@@ -16,6 +16,7 @@ export class CommentComponent implements OnInit {
   @Input() comment! : Comment;
   @Output() deleteEvent = new EventEmitter();
   user? : User;
+  date? : string;
 
   constructor(private us : UserService,
               private authService : AuthenticationService,
@@ -23,6 +24,8 @@ export class CommentComponent implements OnInit {
               private router : Router) { }
 
   ngOnInit(): void {
+    if(this.comment.created_at)
+      this.date = new Date(this.comment.created_at).toLocaleDateString("de-DE");
     this.us.getSingle(this.comment.user_id).subscribe(
       (user) => this.user = user);
   }
