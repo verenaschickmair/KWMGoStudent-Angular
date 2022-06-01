@@ -41,10 +41,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  isCurrentUserTeacher(user: User){
-    return this.us.isCurrentUserTeacher(user);
-  }
-
   getComments(): void{
     this.comments = [];
     this.os.getAllByUserId(this.user.id).subscribe((offers) => {
@@ -67,22 +63,23 @@ export class ProfileComponent implements OnInit {
 
   getBookings(): void{
     this.bookings = [];
+    //GET BOOKED APPOINTMENTS BY LOGGED IN USER ID
     if(!this.isCurrentUserTeacher(this.user)) {
       this.as.getAllByUserId(this.user.id).subscribe((bookings) => {
         this.bookings = bookings;
         this.renderBookings();
       });
     }
+    //GET OFFERS OF LOGGED IN USER TO GET ACCESS TO APPOINTMENTS
     else{
       this.os.getAllByUserId(this.user.id).subscribe((offers) => {
-        console.log(offers)
         this.offers = offers;
         this.renderBookings();
       });
     }
   }
 
-   renderBookings() : void {
+  renderBookings() : void {
      let bookings: Appointment[] = [];
 
      if (!this.isCurrentUserTeacher(this.user)) {
@@ -140,6 +137,7 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl("/login");
   }
 
-
-
+  isCurrentUserTeacher(user: User){
+    return this.us.isCurrentUserTeacher(user);
+  }
 }

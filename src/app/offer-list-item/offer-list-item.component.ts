@@ -6,6 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../shared/user.service";
 import {User} from "../shared/user";
 import {UserFactoryService} from "../shared/user-factory.service";
+import {Subject} from "../shared/subject";
+import {SubjectListService} from "../shared/subject-list.service";
 
 @Component({
   selector: 'app-offer-list-item',
@@ -15,18 +17,17 @@ import {UserFactoryService} from "../shared/user-factory.service";
 export class OfferListItemComponent implements OnInit {
 
   @Input() offer! : Offer;
+  @Input() subject? : Subject;
   @Output() deleteEvent = new EventEmitter();
   owner : User = UserFactoryService.empty();
 
   constructor(private authService : AuthenticationService,
               private os : OfferListService,
               private router : Router,
-              private us : UserService) { }
+              private us : UserService,
+              private ss: SubjectListService) { }
 
   ngOnInit(): void {
-    this.us.getSingle(this.offer.user_id).subscribe((user) => {
-      this.owner = user;
-    })
   }
 
   public isCurrentUserOwner(id : number): boolean{

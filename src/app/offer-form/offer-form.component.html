@@ -40,26 +40,26 @@
 
                     <label class="mr-2" for="date">Datum: </label>
                     <input type="date" id="date" formControlName="date" class="mr-2 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <div *ngIf="errors['date']" class="text-red-500 text-sm"> {{ errors['date'] }}</div>
 
                     <label class="mr-2" for="time_from">Ab: </label>
                     <input type="time" id="time_from" formControlName="time_from" class="mr-2 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <div *ngIf="errors['time_from']" class="text-red-500 text-sm"> {{ errors['time_from'] }}</div>
 
                     <label class="mr-2" for="time_to">Bis: </label>
                     <input type="time" id="time_to" formControlName="time_to" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <div *ngIf="errors['time_to']" class="text-red-500 text-sm"> {{ errors['time_to'] }}</div>
 
                     <div *ngIf="l">
                       <button (click)="addAppointmentControl()" class="px-2 bg-gray-800 text-white duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 border hover:border-gray-800 ml-2 rounded text-lg" type="button">+</button>
                     </div>
                   </div>
-                  </div>
+                  <div *ngIf="errors['time_to']" class="text-red-500 text-sm"> {{ errors['time_to'] }}</div>
+                  <div *ngIf="errors['time_from']" class="text-red-500 text-sm"> {{ errors['time_from'] }}</div>
+                  <div *ngIf="errors['date']" class="text-red-500 text-sm"> {{ errors['date'] }}</div>
+                </div>
               </fieldset>
 
               <div class="px-4 py-3 text-center sm:px-6">
                 <a (click)="stepBack()" class="inline-block w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white hover:text-gray-700 hover:border-gray-800 cursor-pointer">Zurück</a>
-                <button type="submit" [disabled]="offerForm.invalid && !isUpdatingOffer" class="disabled:opacity-50 w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded bg-gray-800 hover:bg-white cursor-pointer hover:text-gray-700 hover:border-gray-800">Speichern</button>
+                <button type="submit" [disabled]="offerForm.invalid" class="disabled:opacity-50 xl:w-28 ml-12 py-3 px-4 text-center text-white border border-transparent duration-200 rounded enabled:cursor-pointer bg-gray-800 hover:enabled:text-gray-700 hover:enabled:bg-white hover:enabled:border-gray-800">Speichern</button>
               </div>
             </div>
           </div>
@@ -68,67 +68,3 @@
     </div>
   </div>
 </div>
-
-
-<!--              <div class="col-span-6 sm:col-span-3">-->
-<!--                <label for="country" class="block text-sm font-medium text-gray-700">Fach</label>-->
-<!--                <select id="country" #subject name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
-<!--                  <option>Mathematik</option>-->
-<!--                  <option>Englisch</option>-->
-<!--                  <option>Deutsch</option>-->
-<!--                  <option>Informatik</option>-->
-<!--                </select>-->
-<!--              </div>-->
-<!--          <fieldset>-->
-<!--            <div>-->
-<!--              <legend class="text-base font-medium text-gray-900">Push Notifications</legend>-->
-<!--              <p class="text-sm text-gray-500">These are delivered via SMS to your mobile phone.</p>-->
-<!--            </div>-->
-<!--            <div class="mt-4 space-y-4">-->
-<!--              <div class="flex items-center">-->
-<!--                <input id="push-everything" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">-->
-<!--                <label for="push-everything" class="ml-3 block text-sm font-medium text-gray-700"> Everything </label>-->
-<!--              </div>-->
-<!--              <div class="flex items-center">-->
-<!--                <input id="push-email" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">-->
-<!--                <label for="push-email" class="ml-3 block text-sm font-medium text-gray-700"> Same as email </label>-->
-<!--              </div>-->
-<!--              <div class="flex items-center">-->
-<!--                <input id="push-nothing" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">-->
-<!--                <label for="push-nothing" class="ml-3 block text-sm font-medium text-gray-700"> No push notifications </label>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </fieldset>-->
-
-<!--          <fieldset>-->
-<!--            <legend class="text-base font-medium text-gray-900">By Email</legend>-->
-<!--            <div class="mt-4 space-y-4">-->
-<!--              <div class="flex items-start">-->
-<!--                <div class="flex items-center h-5">-->
-<!--                  <input id="comments" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">-->
-<!--                </div>-->
-<!--                <div class="ml-3 text-sm">-->
-<!--                  <label for="comments" class="font-medium text-gray-700">Comments</label>-->
-<!--                  <p class="text-gray-500">Get notified when someones posts a comment on a posting.</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="flex items-start">-->
-<!--                <div class="flex items-center h-5">-->
-<!--                  <input id="candidates" name="candidates" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">-->
-<!--                </div>-->
-<!--                <div class="ml-3 text-sm">-->
-<!--                  <label for="candidates" class="font-medium text-gray-700">Candidates</label>-->
-<!--                  <p class="text-gray-500">Get notified when a candidate applies for a job.</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="flex items-start">-->
-<!--                <div class="flex items-center h-5">-->
-<!--                  <input id="offers" name="offers" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">-->
-<!--                </div>-->
-<!--                <div class="ml-3 text-sm">-->
-<!--                  <label for="offers" class="font-medium text-gray-700">Offers</label>-->
-<!--                  <p class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </fieldset>-->

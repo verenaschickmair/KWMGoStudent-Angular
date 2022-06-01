@@ -85,10 +85,10 @@ export class OfferFormComponent implements OnInit {
       this.appointments = new FormArray([]);
       for (let appointment of this.offer.appointments) {
         let fg = this.fb.group({
-          'id': [appointment.id],
-          'date': [appointment.date, [Validators.required, OfferValidators.dateMinimum(new Date())]],
-          'time_from': [appointment.time_from, [Validators.required]],
-          'time_to': [appointment.time_to, [Validators.required]]
+          'id': new FormControl(appointment.id),
+          'date': new FormControl(appointment.date, [Validators.required, OfferValidators.dateFormat(new Date())]),
+          'time_from': new FormControl(appointment.time_from, [Validators.required]),
+          'time_to': new FormControl(appointment.time_to, [Validators.required])
         });
         this.appointments.push(fg);
       }
@@ -103,8 +103,8 @@ export class OfferFormComponent implements OnInit {
     this.appointments.push(this.fb.group(
       {
         'id': new FormControl(0),
-        'date': new FormControl(["", Validators.required, OfferValidators.dateMinimum(new Date())]),
-        'time_from': new FormControl(["", Validators.required]),
+        'date': new FormControl("", [Validators.required, OfferValidators.dateFormat(new Date())]),
+        'time_from': new FormControl("", Validators.required),
         'time_to': new FormControl("", Validators.required)
       }
     ));
@@ -134,8 +134,8 @@ export class OfferFormComponent implements OnInit {
 
   submitForm() {
     const offer: Offer = OfferFactoryService.fromObject(this.offerForm.value);
-    console.log(this.offerForm.value);
-    console.log(offer);
+    offer.user_id = this.authService.getCurrentUserId();
+    offer.subject_id = this.selectedSubject!;
 
     if (this.isUpdatingOffer) {
       this.os.update(offer).subscribe(res => {
@@ -143,9 +143,6 @@ export class OfferFormComponent implements OnInit {
         this.stepBack();
       });
     } else {
-      offer.user_id = this.authService.getCurrentUserId();
-      offer.subject_id = this.selectedSubject!;
-
       this.os.create(offer).subscribe(res => {
         this.offer = OfferFactoryService.empty();
         this.offerForm.reset(OfferFactoryService.empty());

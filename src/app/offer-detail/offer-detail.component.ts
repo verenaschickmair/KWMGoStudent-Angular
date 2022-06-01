@@ -63,7 +63,7 @@ export class OfferDetailComponent implements OnInit {
       this.offer = o;
       this.us.getSingle(this.offer.user_id).subscribe(owner => {
         this.owner = owner;
-        this.hideBookedAppointments();
+        this.hideBookedOrPastAppointments();
         this.renderComments();
         this.checkLoggedInUser();
       });
@@ -80,10 +80,10 @@ export class OfferDetailComponent implements OnInit {
     this.finished = true;
   }
 
-  hideBookedAppointments() : void{
+  hideBookedOrPastAppointments() : void{
     this.appointments = [];
     for(const app of this.offer.appointments){
-      if(!app.user_id){
+      if(!app.user_id && new Date(app.date).getTime() >= new Date().getTime()){
         this.appointments.push(app);
       }
     }

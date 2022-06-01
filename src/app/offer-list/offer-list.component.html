@@ -4,7 +4,7 @@
 
 <div class="flex flex-wrap mx-auto items-stretch justify-center ">
   <div *ngFor="let offer of loopOffers" class="w-full h-full items-stretch flex-shrink-0 lg:w-1/3 m-6 bg-white p-6 shadow-lg rounded">
-    <app-offer-list-item [offer]="offer" (deleteEvent)="loadOffers()"></app-offer-list-item>
+    <app-offer-list-item [offer]="offer" [subject]="subject" (reloadEvent)="loadOffers()"></app-offer-list-item>
   </div>
 </div>
 

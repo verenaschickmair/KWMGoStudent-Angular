@@ -30,11 +30,7 @@ export class AuthenticationService {
   }
 
   public setSessionStorage(token: string) {
-    console.log("storing token");
-    console.log(jwt_decode(token));
     const decodedToken = jwt_decode(token) as Token;
-    console.log(decodedToken);
-    console.log(decodedToken.user.id);
     sessionStorage.setItem("token", token);
     sessionStorage.setItem("userId", decodedToken.user.id);
 
@@ -44,7 +40,6 @@ export class AuthenticationService {
     this.http.post(`${this.api}/logout`, {});
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
-    console.log("Logged out");
   }
 
   public isLoggedIn() {
@@ -53,11 +48,11 @@ export class AuthenticationService {
       const decodedToken = jwt_decode(token) as Token;
       let expirationDate: Date = new Date(0);
       expirationDate.setUTCSeconds(decodedToken.exp);
-      // if (expirationDate < new Date()) {
-      //   console.log("token expired");
-      //   sessionStorage.removeItem("token");
-      //   return false;
-      // }
+      if (expirationDate < new Date()) {
+        console.log("token expired");
+        sessionStorage.removeItem("token");
+        return false;
+      }
       return true;
     } else {
       return false;

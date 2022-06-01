@@ -46,19 +46,16 @@ export class OfferListComponent implements OnInit {
     if(this.subject){
       this.os.getAllBySubjectId(this.subject.id).subscribe((offers) => {
         this.loopOffers = offers;
-        console.log("subject: " + offers);
       });
     }
     else if(this.user) {
       this.os.getAllByUserId(this.user.id).subscribe((offers) => {
         this.loopOffers = offers;
-        console.log("user: " + offers);
       });
     }
     else{
       this.os.getAll().subscribe((offers) => {
         this.loopOffers = offers;
-        console.log("all: " + offers);
       });
     }
   }
