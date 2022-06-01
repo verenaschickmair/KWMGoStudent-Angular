@@ -21,7 +21,7 @@ export class OfferListService {
   }
 
   getAllByUserId(userId : number): Observable<Array<Offer>>{
-    return this.http.get<Array<Offer>>(`${this.api}/profile/${userId}/comments`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+    return this.http.get<Array<Offer>>(`${this.api}/users/${userId}/comments`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   getSingle(id: number): Observable<Offer> {
@@ -38,10 +38,6 @@ export class OfferListService {
 
   create(offer: Offer) : Observable<any> {
     return this.http.post(`${this.api}/offers`, offer).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-
-  check(id: number) : Observable<Boolean>{
-    return this.http.get<Boolean>(`${this.api}/offers/checkid/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   private errorHandler(error: Error | any): Observable<any> {

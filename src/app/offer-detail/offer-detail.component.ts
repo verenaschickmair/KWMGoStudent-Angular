@@ -94,8 +94,8 @@ export class OfferDetailComponent implements OnInit {
   }
 
   renderComments(){
-    this.cs.getAllByOfferId(this.offer.id).subscribe(c => {
-      this.comments = c;
+    this.cs.getAllByOfferId(this.offer.id).subscribe(comments => {
+      this.comments = comments.reverse();
     })
   }
 

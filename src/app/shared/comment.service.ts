@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Comment} from "./comment";
-import {Offer} from "./offer";
 
 @Injectable({
   providedIn: 'root'

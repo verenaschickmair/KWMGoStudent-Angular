@@ -24,20 +24,12 @@ export class SubjectListService {
     return this.http.delete(`${this.api}/subjects/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
-  getAllSearch(searchTerm:string) : Observable<Array<Subject>> {
-    return this.http.get<Subject>(`${this.api}/subjects/search/${searchTerm}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-
   update(subject: Subject) : Observable<any> {
     return this.http.put(`${this.api}/subjects/${subject.id}`, subject).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   create(subject: Subject) : Observable<any> {
     return this.http.post(`${this.api}/subjects`, subject).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-
-  check(id: number) : Observable<Boolean>{
-    return this.http.get<Boolean>(`${this.api}/subjects/checkid/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   private errorHandler(error: Error | any): Observable<any> {
